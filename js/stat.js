@@ -19,6 +19,14 @@ const Font = {
 const renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  ctx.fillStyle = `#000`;
+  ctx.font = `${Font.SIZE} ${Font.FAMILY}`;
+};
+
+const renderTexts = function (ctx, strings) {
+  for (let i = 0; i < strings.length; i++) {
+    ctx.fillText(strings[i], TEXT_X, FONT_GAP * (i + 1));
+  }
 };
 
 const getTimeMax = function (timesAr) {
@@ -34,33 +42,18 @@ const getTimeMax = function (timesAr) {
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, `rgba(0, 0, 0, 0.7)`);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, `#fff`);
-
-  ctx.fillStyle = `#000`;
-  ctx.font = `${Font.SIZE} ${Font.FAMILY}`;
-
-  const texts = [`Ура вы победили!`, `Список результатов:`];
-  const getText = function (textAr) {
-    for (let i = 0; i < textAr.length; i++) {
-      ctx.fillText(textAr[i], TEXT_X, FONT_GAP * (i + 1));
-    }
-  };
-  getText(texts);
-
-  let colorBar = ``;
+  renderTexts(ctx, [`Ура вы победили!`, `Список результатов:`]);
 
   for (let i = 0; i < players.length; i++) {
-    if (players[i] !== `Вы`) {
-      colorBar = `hsl(240, 94%,` + 15 * (i + 1) + `%)`;
-    } else {
-      colorBar = `rgba(255, 0, 0, 1)`;
-    }
+    const saturate = (Math.floor(Math.random() * 10) + 1) * 10;
+    const colorBar = (players[i] !== `Вы`) ? `hsl(240, ${saturate}%, 30%)` : `rgba(255, 0, 0, 1)`;
     const barHeight = BAR_HEIGHT_MAX / getTimeMax(times) * times[i];
-
+    const statisticsX = CLOUD_X + GAP_BAR + (GAP_BAR + BAR_WIDTH) * i;
     ctx.save();
-    ctx.fillText(players[i], CLOUD_X + GAP_BAR + (GAP_BAR + BAR_WIDTH) * i, CLOUD_HEIGHT);
-    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP_BAR + (GAP_BAR + BAR_WIDTH) * i, CLOUD_HEIGHT - barHeight - FONT_GAP);
+    ctx.fillText(players[i], statisticsX, CLOUD_HEIGHT);
+    ctx.fillText(Math.round(times[i]), statisticsX, CLOUD_HEIGHT - barHeight - FONT_GAP);
     ctx.fillStyle = colorBar;
-    ctx.fillRect(CLOUD_X + GAP_BAR + (GAP_BAR + BAR_WIDTH) * i, BAR_HEIGHT_MAX + CLOUD_X, BAR_WIDTH, -barHeight);
+    ctx.fillRect(statisticsX, BAR_HEIGHT_MAX + CLOUD_X, BAR_WIDTH, -barHeight);
     ctx.restore();
   }
 };
