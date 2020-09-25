@@ -11,31 +11,36 @@ const WIZARD_NAMES = [`Иван`, `Хуан`, `Себастьян`, `Мария`
 const WIZARD_SURNAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
 const WIZARD_COAT_COLORS = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
 const WIZARD_EYES_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
+const WIZARD_QUANTITY = 4;
 
-const wizardPrototype = {};
+const renderSimilarWizards = function () {
 
-const getRandomImport = function (imports) {
-  const randomImport = imports[Math.floor(Math.random() * imports.length)];
-  return randomImport;
+  const wizardPrototype = {};
+
+  const getRandomImport = function (imports) {
+    const randomImport = imports[Math.floor(Math.random() * imports.length)];
+    return randomImport;
+  };
+
+  const getWizardData = function (wizardData) {
+    wizardData.name = `${getRandomImport(WIZARD_NAMES)} ${getRandomImport(WIZARD_SURNAMES)}`;
+    wizardData.coatColor = getRandomImport(WIZARD_COAT_COLORS);
+    wizardData.eyesColor = getRandomImport(WIZARD_EYES_COLORS);
+    return wizardData;
+  };
+
+  const createWizard = function (wizard) {
+    const similarWizardForm = TEMPLATE.cloneNode(true);
+    similarWizardForm.querySelector(`.setup-similar-label`).textContent = wizard.name;
+    similarWizardForm.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
+    similarWizardForm.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
+    return similarWizardForm;
+  };
+
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < WIZARD_QUANTITY; i++) {
+    fragment.appendChild(createWizard(getWizardData(wizardPrototype)));
+  }
+  return fragment;
 };
-
-const getWizardData = function (wizardData) {
-  wizardData.name = `${getRandomImport(WIZARD_NAMES)} ${getRandomImport(WIZARD_SURNAMES)}`;
-  wizardData.coatColor = getRandomImport(WIZARD_COAT_COLORS);
-  wizardData.eyesColor = getRandomImport(WIZARD_EYES_COLORS);
-  return wizardData;
-};
-
-const createWizard = function (wizard) {
-  const similarWizardForm = TEMPLATE.cloneNode(true);
-  similarWizardForm.querySelector(`.setup-similar-label`).textContent = wizard.name;
-  similarWizardForm.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
-  similarWizardForm.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
-  return similarWizardForm;
-};
-
-const fragment = document.createDocumentFragment();
-for (let i = 0; i < 4; i++) {
-  fragment.appendChild(createWizard(getWizardData(wizardPrototype)));
-}
-WIZARDS_LIST_ELEMENT.appendChild(fragment);
+WIZARDS_LIST_ELEMENT.appendChild(renderSimilarWizards());
