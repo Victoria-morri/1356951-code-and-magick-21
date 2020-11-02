@@ -110,21 +110,6 @@ popupCloseElement.addEventListener(`click`, function () {
   closePopup();
 });
 
-popupCloseElement.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Enter`) {
-    closePopup();
-  }
-});
-
-submitElement.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Enter`) {
-    wizardFormElement.submit();
-  }
-});
-submitElement.addEventListener(`click`, function () {
-  wizardFormElement.submit();
-});
-
 inputNameElement.addEventListener(`input`, function () {
   let valueInput = inputNameElement.value.length;
   if (valueInput < MIN_NAME_LENGTH) {
