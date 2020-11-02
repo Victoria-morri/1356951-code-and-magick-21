@@ -69,21 +69,18 @@
 <div class="overlay setup hidden">
   <form class="setup-wizard-form"
         method="post"
-        action="https://21.javascript.pages.academy/code-and-magick"
         enctype="multipart/form-data"
+        action="https://21.javascript.pages.academy/code-and-magick"
         autocomplete="off">
 
     <div class="setup-title">
       <div class="setup-user">
         <div class="upload">
           <img class="setup-user-pic" src="img/user-1.jpg"/>
-          <input type="file" name="avatar">
+          <input type="file" name="avatar" accept="image/png, image/jpeg">
         </div>
         <label>
-          <input type="text" name="username"
-                 minlength="2"required
-                 maxlength="25"
-                 class="setup-user-name" value="Синий Пендальф" required/>
+          <input type="text" class="setup-user-name" value="Синий Пендальф" name="username" required minlength="2" maxlength="25">
         </label>
       </div>
 
