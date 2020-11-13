@@ -7,8 +7,6 @@
       x: evt.clientX,
       y: evt.clientY
     };
-    console.log(startCords.x);
-    console.log(startCords.y);
     let dragget = false;
     const onMouseMove = function (moveEvt) {
       dragget = true;
